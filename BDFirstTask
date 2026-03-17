@@ -1,0 +1,59 @@
+
+
+-- ① CREATE TABLE Manger
+-- ============================================================
+CREATE TABLE Manger (
+    id         NUMBER          PRIMARY KEY,
+    name       VARCHAR2(100)   NOT NULL,
+    age        NUMBER,
+    birth_date DATE            NOT NULL,
+    address    VARCHAR2(255)
+);
+
+
+-- ② ALTER TABLE - Drop address, Add city_address & street
+-- ============================================================
+
+--address dele
+ALTER TABLE Manger DROP COLUMN address;
+
+-- add 2 columns
+ALTER TABLE Manger ADD (
+    city_address VARCHAR2(100),
+    street       VARCHAR2(100)
+);
+
+
+-- ③ MODIFY - Rename column name , full_name
+-- ============================================================
+ALTER TABLE Manger RENAME COLUMN name TO full_name;
+
+
+-- ④ Make it READ ONLY
+-- ============================================================
+ALTER TABLE Manger READ ONLY;
+
+
+-- ⑤ CREATE TABLE Owner same structure, selected columns only
+-- ============================================================
+
+-- لازم نرجع الجدول READ WRITE الأول
+ALTER TABLE Manger READ WRITE;
+
+CREATE TABLE Owner AS
+SELECT id, full_name AS name, birth_date
+FROM Manger
+WHERE 1 = 2;  -- structure only, no data
+
+
+-- ⑥ RENAME TABLE Manger → Master
+-- ============================================================
+RENAME Manger TO Master;
+
+
+-- ⑦ DROP ALL TABLES
+-- ============================================================
+DROP TABLE Owner   CASCADE CONSTRAINTS;
+DROP TABLE Master  CASCADE CONSTRAINTS;
+
+
